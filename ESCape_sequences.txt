@@ -1,0 +1,58 @@
+
+           
+           Supports escape sequences:
+             \a (0x07) - Beep
+             \b (0x08) - Backspace. Cursor left, wraps around to previous line, 
+                         stop at top left of screen.
+             \t (0x09) - Horizontal Tab. Tab, overwrites with spaces up to next 
+                         8th column, wraps around to start of next line, scrolls
+                         at bottom right of screen.
+             \n (0x0A) - Newline > Line Feed and Carriage Return (CRLF) 
+                         Note: CR added in this Lib.
+             \v (0x0B) - Cursor home. Place the cursor at the top of the screen.
+             \f (0x0C) - Formfeed. Clear screen and place the cursor at the top. 
+             \r (0x0D) - CR (Carriage Return)
+            
+             \" (0x22) - Double quotation mark
+             \' (0x27) - Single quotation mark
+             \? (0x3F) - Question mark
+             \\ (0x5C) - Backslash
+             
+             
+                           
+
+MSX-DOS 1 & 2 control codes (contain the VT-52 control codes)
+                           
+Ctrl-G 07h = Bell.
+Ctrl-H 08h = Cursor left, wraps around to previous line, stop at top left of screen.
+Ctrl-I 09h = Tab, overwrites with spaces up to next 8th column, wraps around to start of next line, scrolls at bottom right of screen.
+Ctrl-J 0Ah = Line feed, scrolls if at bottom of screen.
+Ctrl-K 0Bh = Cursor home.
+Ctrl-L 0Ch = Clear screen and home cursor.
+Ctrl-M 0Dh = Carriage return.
+Ctrl-[ 1Bh = ESC - see below for escape sequences.
+Ctrl-\ 1Ch = Cursor right, wrap around to next line, stop at bottom right of screen.
+Ctrl-] 1Dh = Cursor left, wrap around to previous line, stop at top left of screen.
+Ctrl-^ 1Eh = Cursor up, stop at top of screen.
+Ctrl-_ 1Fh = Cursor down, stop at bottom of screen.
+7Fh = Delete character and move cursor left, wrap around to previous line, stop at top of screen.
+Esc A = Cursor up, stops at top of screen.
+Esc B = Cursor down, stops at bottom of screen.
+Esc C = Cursor right, stops at end of line.
+Esc D = Cursor left, stops at start of line.
+Esc E = Clear screen and home cursor.
+Esc H = Cursor home.
+Esc J = Erase to end of screen, don't move cursor.
+Esc j = Clear screen and home cursor.
+Esc K = Erase to end of line, don't move cursor.
+Esc L = Insert a line above cursor line, scroll rest of screen down. Leave cursor at start of new blank line.
+Esc l = Erase entire line, don't move cursor.
+Esc M = Delete cursor line, scrolling rest of screen up. Leave cursor at start of next line.
+Esc x 4 = Select block cursor.
+Esc x 5 = Cursor off.
+Esc Y <n><m>= Position cursor at row <n> column <m>. Top left of screen is n=m=20h (ASCII space).
+Esc y 4 = Select underscore cursor.
+Esc y 5 = Cursor on.
+
+
+                        
