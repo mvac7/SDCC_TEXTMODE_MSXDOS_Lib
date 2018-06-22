@@ -26,9 +26,9 @@ Works in T1 (screen 0, 40 columns), T2 (screen 0, 80 columns), and G1 (screen 1,
 This library uses the functions of the BIOS designed to print text on the
 screen, but they are called through the interslot (CALSLT), to be used in MSXDOS applications.
 
-Use them for developing MSX applications using Small Device C Compiler (SDCC) compilator.
+Use them for developing MSX applications using Small Device C Compiler (SDCC).
 
-Include a application for test and learning purposes.
+Includes an application for test and learning purposes.
 
 
 
