@@ -150,6 +150,8 @@ void LOCATE(char x, char y);
              \' (0x27) - Single quotation mark
              \? (0x3F) - Question mark
              \\ (0x5C) - Backslash
+             \xhh      - Print in the output the character/code given in the 
+                         hexadecimal value (hh).
 ============================================================================= */
 void PRINT(char* text);
 

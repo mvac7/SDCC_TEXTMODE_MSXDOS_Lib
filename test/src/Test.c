@@ -1,6 +1,15 @@
 /* =============================================================================
   Test SDCC textmode MSXDOS Library
-  v1.3 (7/05/2018)
+  
+  Version: 1.3
+  Date: 7/05/2018
+  Author: mvac7/303bcn
+  Architecture: MSX
+  Format: .COM (MSXDOS)
+  Programming language: C
+  WEB: 
+  mail: mvac7303b@gmail.com
+   
   Description:
     Test textmode MSX DOS library
     

@@ -1,20 +1,22 @@
 SDCC MSX MSXDOS TEXTMODE Functions Library (object type)
-Version: 1.2 (5/5/2018)
+Version: 1.2 
+Date: 05/05/2018
 Author: mvac7/303bcn
 Architecture: MSX
 Format: C Object (SDCC .rel)
 Programming language: C
 WEB: 
 mail: mvac7303b@gmail.com
-Doc version: 1.1.2
+Doc version: 1.1.3
 
 History of versions:
-- v1.2 ( 5/5/2018) current version
-- v1.1 (27/2/2017)
+- v1.2   (05/05/2018)< current version
+- v1.1   (27/02/2017)
 
 Document changes:
-- v1.1.2 (14/6/2018) current version
-- v1.1   ( 3/4/2018) 
+- v1.1.3 (04/07/2018)< add escape sequence at PRINT
+- v1.1.2 (14/06/2018) 
+- v1.1   (03/04/2018) 
 
     
 --------------------------------------------------------------------------------
@@ -227,6 +229,9 @@ Includes an application for test and learning purposes.
              \' (0x27) - Single quotation mark
              \? (0x3F) - Question mark
              \\ (0x5C) - Backslash
+             
+             \xhh      - Print in the output the character/code given in the 
+                         hexadecimal value (hh).
  
  Examples:
            PRINT("Hello World");
