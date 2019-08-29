@@ -1,6 +1,6 @@
 # SDCC MSX-DOS TEXTMODE Functions Library (object type)
 
-Version: 1.2 (5/5/2018)
+Version: 1.3 (29/08/2019)
 
 Author: mvac7/303bcn
 
@@ -13,6 +13,14 @@ Programming language: C
 WEB:
  
 mail: mvac7303b@gmail.com
+
+
+
+### History of versions:
+
+- v1.3 (29/08/2019)
+- v1.2 (05/05/2018)
+- v1.1 (27/02/2017)
 
 
 

@@ -1,6 +1,6 @@
 /* =============================================================================
   SDCC MSX-DOS TEXTMODE Functions Library (object type)
-  Version: 1.2 (5/5/2018)
+  Version: 1.3 (29/8/2019)
   Author: mvac7/303bcn
   Architecture: MSX
   Format: C Object (SDCC .rel)
@@ -39,10 +39,9 @@ char CSTATE;
  Input:    -
  Output:   -
 ============================================================================= */
-void SCREEN0()
+void SCREEN0() __naked
 {
 __asm
-
   push IX
   
   ld   A,(#LINLEN)
@@ -54,7 +53,7 @@ __asm
   ei
     
   pop  IX
-  
+  ret  
 __endasm;
 }
 
@@ -68,10 +67,9 @@ __endasm;
  Input:    -
  Output:   -
 ============================================================================= */
-void SCREEN1()
+void SCREEN1() __naked
 {
 __asm
-     
   push IX
   
   ld   A,(#LINLEN)   ;get a last value set with WIDTH function 
@@ -83,7 +81,7 @@ __asm
   ei
     
   pop  IX
-  
+  ret  
 __endasm;
 }
 
@@ -100,7 +98,7 @@ __endasm;
             1 to 32 in G1 mode
  Output:   - 
 ============================================================================= */
-void WIDTH(char columns)
+void WIDTH(char columns)  __naked
 {
 columns;
 __asm
@@ -112,6 +110,7 @@ __asm
   ld   (#LINLEN),A
   
   pop  IX
+  ret
 __endasm;  
 }
 
@@ -127,7 +126,7 @@ __endasm;
            (char) border (0 to 15)
  Output:   -
 ============================================================================= */
-void COLOR(char ink, char background, char border)
+void COLOR(char ink, char background, char border) __naked
 {
 ink;background,border;
 __asm
@@ -151,6 +150,7 @@ __asm
   ei
   
   pop  IX
+  ret
 __endasm;
 }
 
@@ -165,10 +165,9 @@ __endasm;
  Input:    -        
  Output:   -
 ============================================================================= */
-void CLS()
+void CLS() __naked
 {
 __asm
-
   push IX
   
   xor  A
@@ -177,9 +176,9 @@ __asm
   ld   IY,(EXPTBL-1)
   call CALSLT
   ei
-    
+
   pop  IX
-  
+  ret
 __endasm;
 }
 
@@ -194,7 +193,7 @@ __endasm;
            (char) Position Y of the cursor. (0 to 23)         
  Output:   -
 ============================================================================= */
-void LOCATE(char x, char y)
+void LOCATE(char x, char y) __naked
 {
 x;y;
 __asm
@@ -215,6 +214,7 @@ __asm
   ei
   
   pop  IX
+  ret
 __endasm;
 }
 
@@ -277,18 +277,18 @@ void PRINT(char* text)
 void PrintNumber(unsigned int value)
 {
   char character;
+  char charpos=0;
   char text[]="     ";
-  char *p;	
 
-  num2Dec16(value, text,32); 
+  num2Dec16(value, text,32);
   
-  p = text;  
-  
-  while(*(p))
+  while(charpos<5)
   {
-    character=*(p++);
+    character=text[charpos];
     if (character!=32) bchput(character);
-  }   
+    charpos++;
+  }
+
 }
 
 
@@ -308,7 +308,7 @@ void PrintFNumber(unsigned int value, char emptyChar, char length)
   char pos=5;
   char text[]="     ";
 
-  num2Dec16(value, text,emptyChar); //32=space, 48=zero 
+  num2Dec16(value, text, emptyChar); //32=space, 48=zero 
   
   if(length>5) length=5;
   if(length==0) length=5;
@@ -316,7 +316,7 @@ void PrintFNumber(unsigned int value, char emptyChar, char length)
   pos-=length;
   
   // muestra el numero en la pantalla
-  while (length-->0){ bchput(text[pos++]);}
+  while (length-->0) bchput(text[pos++]);
 }
 
 
@@ -332,7 +332,7 @@ void PrintFNumber(unsigned int value, char emptyChar, char length)
            (char*) Address where the output string is provided.
            (char) empty Char: 32=space, 48=zero
 ============================================================================= */
-void num2Dec16(unsigned int aNumber, char *address, char emptyChar)
+void num2Dec16(unsigned int aNumber, char *address, char emptyChar) __naked
 {
   aNumber;
   address;
@@ -400,9 +400,7 @@ $Num4:
 	inc	 DE
 		
 	ret
-  
-$Num5:
-    
+      
 __endasm;
 }
 
@@ -416,7 +414,7 @@ __endasm;
  Input:   (char) text char
  Output:  -
 ============================================================================= */
-void bchput(char value)
+void bchput(char value) __naked
 {
 value;
 __asm
@@ -432,6 +430,7 @@ __asm
   ei
   
   pop  IX
+  ret
 __endasm;
 }
 
