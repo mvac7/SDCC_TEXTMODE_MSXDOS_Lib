@@ -1,19 +1,16 @@
 /* =============================================================================
   SDCC MSX TEXTMODE Functions Library (object type)
-  Version: 1.2
+  Version: 1.4 (4/9/2019)
   Author: mvac7/303bcn
   Architecture: MSX
   Format: C Object (SDCC .rel)
-  Programming language: C
+  Programming language: C + Assembler
   WEB: 
   mail: mvac7303b@gmail.com
 
   Description:
     Open Source library of functions for creating aplications in text mode. 
     
-  History of versions:
-    v1.2 ( 3/4/2018) current version
-    v1.1 (27/2/2017)
 ============================================================================= */
 #ifndef __TEXTMODE_H__
 #define __TEXTMODE_H__
@@ -179,26 +176,17 @@ void PrintNumber(unsigned int value);
 
  Description: 
            Prints an unsigned integer on the screen with formatting parameters.
+           
+           16-bit Integer to ASCII (decimal)
+           Based on num2Dec16 by baze
+           
  Input:    (unsigned int) numeric value
            (char) empty Char: (32=' ', 48='0', etc.)
            (char) length: 1 to 5          
- Output:   -  
+ Output:   -
 ============================================================================= */
 void PrintFNumber(unsigned int value, char emptyChar, char length);
 
-
-
-/* =============================================================================
- num2Dec16
- 
- Description: 
-           16-bit Integer to ASCII (decimal)
-           Based on the code by baze.
- Input:    (unsigned int) a number
-           (char*) Address where the output string is provided.
-           (char) empty Char: 32=space, 48=zero
-============================================================================= */
-void num2Dec16(unsigned int aNumber, char *address, char emptyChar);
 
 
 

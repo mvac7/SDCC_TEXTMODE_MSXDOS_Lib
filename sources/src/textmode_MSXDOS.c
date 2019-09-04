@@ -1,10 +1,10 @@
 /* =============================================================================
   SDCC MSX-DOS TEXTMODE Functions Library (object type)
-  Version: 1.3 (29/8/2019)
+  Version: 1.4 (4/9/2019)
   Author: mvac7/303bcn
   Architecture: MSX
   Format: C Object (SDCC .rel)
-  Programming language: C
+  Programming language: C + Assembler
   WEB: 
   mail: mvac7303b@gmail.com
 
@@ -18,6 +18,16 @@
 
     Use them for developing MSX applications using Small Device C Compiler (SDCC) 
     compilator.
+    
+    16-bit Integer to ASCII based on num2Dec16 by baze
+    http://baze.sk/3sc/misc/z80bits.html#5.1
+
+  History of versions:
+  - v1.4 (04/09/2019) Integer printing functions improved (PrintNumber & PrintFNumber).
+                      num2Dec16 becomes PrintFNumber
+  - v1.3 (29/08/2019) nakeds and PrintNumber improvements
+  - v1.2 (05/05/2018)
+  - v1.1 (27/02/2017)
 ============================================================================= */
 #include "../include/textmode.h"
 
@@ -26,7 +36,7 @@
 
 
 char CSTATE;
-
+char FNUMSIZE;
 
 
 /* =============================================================================
@@ -276,18 +286,8 @@ void PRINT(char* text)
 ============================================================================= */
 void PrintNumber(unsigned int value)
 {
-  char character;
-  char charpos=0;
-  char text[]="     ";
 
-  num2Dec16(value, text,32);
-  
-  while(charpos<5)
-  {
-    character=text[charpos];
-    if (character!=32) bchput(character);
-    charpos++;
-  }
+  PrintFNumber(value,0,5);
 
 }
 
@@ -298,45 +298,20 @@ void PrintNumber(unsigned int value)
 
  Description: 
            Prints an unsigned integer on the screen with formatting parameters.
+           
+           16-bit Integer to ASCII (decimal)
+           Based on num2Dec16 by baze
+           
  Input:    (unsigned int) numeric value
            (char) empty Char: (32=' ', 48='0', etc.)
            (char) length: 1 to 5          
  Output:   -
 ============================================================================= */
-void PrintFNumber(unsigned int value, char emptyChar, char length)
+void PrintFNumber(unsigned int aNumber, char emptyChar, char length) __naked
 {
-  char pos=5;
-  char text[]="     ";
-
-  num2Dec16(value, text, emptyChar); //32=space, 48=zero 
-  
-  if(length>5) length=5;
-  if(length==0) length=5;
-  //coloca el puntero en la posicion donde se ha de empezar a mostrar 
-  pos-=length;
-  
-  // muestra el numero en la pantalla
-  while (length-->0) bchput(text[pos++]);
-}
-
-
-
-
-/* =============================================================================
- num2Dec16
- 
- Description: 
-           16-bit Integer to ASCII (decimal)
-           Based on the code by baze.
- Input:    (unsigned int) a number
-           (char*) Address where the output string is provided.
-           (char) empty Char: 32=space, 48=zero
-============================================================================= */
-void num2Dec16(unsigned int aNumber, char *address, char emptyChar) __naked
-{
-  aNumber;
-  address;
+  aNumber;      //to avoid warnings 
   emptyChar;
+  length;
 __asm
   push IX
   ld   IX,#0
@@ -344,14 +319,21 @@ __asm
   
   ld   L,4(ix)
   ld   H,5(ix)
-  
-;if (HL<0) Print "-" 
-  
-  ld   E,6(ix)
-  ld   D,7(ix)
-  
-  ld   A,8(ix)   ;#32
+ 
+  ld   A,6(ix)        ;empty char
   ld   (#_CSTATE),A
+  
+  ld   D,7(ix)        ;length
+
+  ld   IY,#_FNUMSIZE  ;variable for print size control
+  ld   (IY),#5        ;init
+  
+
+;for a future version with negative numbers  
+;if (HL<0) Print "-" 
+;   ld   A,#45
+;   call $Num4
+
   	
   ld   BC,#-10000
 	call $Num1
@@ -369,19 +351,20 @@ __asm
 
 ;END
   pop  IX
+  ei             ;disabled for CALSLT
   ret
     
 $Num1:	
-  ld	 A,#47 ; 0 ASCII code - 1
+  ld	 A,#47     ;"0" ASCII code - 1
    
-$Num2:	
+$Num2:
   inc	 A
 	add	 HL,BC
 	jr	 C,$Num2
 	
 	sbc	 HL,BC
 	
-	cp   #48   ;"0" ASCII code    
+	cp   #48       ;"0" ASCII code    
 	jr   NZ,$Num3  ;if A!=48 then goto $Num3
 	
 	ld   A,(#_CSTATE)
@@ -390,14 +373,26 @@ $Num2:
 
 $Num3:
   ;change space for 0 zero ASCII code
-  push AF
+  ex   AF,AF
   ld   A,#48
   ld   (#_CSTATE),A
-  pop  AF	
+  ex   AF,AF	
 	
-$Num4:	
-	ld	 (DE),A   ;save a ascii code
-	inc	 DE
+$Num4:
+  ld   E,A
+  ld   IY,#_FNUMSIZE
+  dec  (IY)
+  ld   A,(IY)
+  cp   D
+  ret  NC
+  
+  ld   A,E
+  or   A
+  ret  Z  ;only print A>0
+  
+  ld   IX,#CHPUT
+  ld   IY,(EXPTBL-1)
+  call CALSLT              //podria sustituirse por un VPRINT (mucho más optimo)
 		
 	ret
       

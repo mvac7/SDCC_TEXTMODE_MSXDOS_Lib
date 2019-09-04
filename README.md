@@ -1,6 +1,6 @@
 # SDCC MSX-DOS TEXTMODE Functions Library (object type)
 
-Version: 1.3 (29/08/2019)
+Version: 1.4 (4/9/2019)
 
 Author: mvac7/303bcn
 
@@ -8,7 +8,7 @@ Architecture: MSX
 
 Format: C Object (SDCC .rel)
 
-Programming language: C
+Programming language: C + Assembler
 
 WEB:
  
@@ -18,10 +18,10 @@ mail: mvac7303b@gmail.com
 
 ### History of versions:
 
-- v1.3 (29/08/2019)
-- v1.2 (05/05/2018)
-- v1.1 (27/02/2017)
-
+* v1.4 (04/09/2019)< Integer printing functions improved (PrintNumber & PrintFNumber). num2Dec16 becomes PrintFNumber
+* v1.3 (29/08/2019)  nakeds and PrintNumber improvements
+* v1.2 (05/05/2018)
+* v1.1 (27/02/2017)
 
 
 
@@ -37,6 +37,9 @@ screen, but they are called through the interslot (CALSLT), to be used in MSXDOS
 Use them for developing MSX applications using Small Device C Compiler (SDCC).
 
 Includes an application for test and learning purposes.
+
+The whole number printing function is programmed from routine num2Dec16 published by Baze.
+http://baze.sk/3sc/misc/z80bits.html#5.1
 
 
 
@@ -81,5 +84,4 @@ Thanks for Info & help, to:
 * void PRINT(char* text) - Displays a text string on the screen.
 * void PrintNumber(unsigned int value) - Prints an unsigned integer on the screen.
 * void PrintFNumber(unsigned int value, char emptyChar, char length) - Prints an unsigned integer on the screen with formatting parameters.
-* void num2Dec16(unsigned int aNumber, char *address, char emptyChar) - 16-bit Integer to ASCII (decimal) (by baze)
 * void bchput(char value) - Displays one character (MSX BIOS CHPUT).
