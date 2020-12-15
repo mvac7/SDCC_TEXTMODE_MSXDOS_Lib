@@ -20,7 +20,7 @@ but they are called through the interslot (CALSLT), to be used in MSXDOS applica
 
 Use them for developing MSX applications using Small Device C Compiler (SDCC).
 
-Includes an application for test and learning purposes.
+Two applications are included in the source code for testing and learning purposes.
 
 I have adapted a routine for converting a 16 Bits value to ASCII, extracted from the Baze collection [(WEB)](http://baze.sk/3sc/misc/z80bits.html#5.1), for printing numbers. 
 
