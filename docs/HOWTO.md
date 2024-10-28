@@ -202,7 +202,7 @@ WHITE		| 15
 <tr><td><b>Example:</b></td><td colspan=2><pre>LOCATE(0,8);<br/>PRINT("\tLine 1\n\tLine 2\n\tLine 3\n");</pre></td></tr>
 </table>
 
-Read [Appendix 1](#61-Supports-escape-sequences) for supported C escape secuences.
+Read [Appendix 1](#71-Escape-sequences) for supported C escape secuences.
 
 <br/>
 
