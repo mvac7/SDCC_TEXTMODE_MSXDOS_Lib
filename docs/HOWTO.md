@@ -33,9 +33,9 @@
 	- [5.2.1 Set GRAPHIC 1 Colors](#521-Set-GRAPHIC-1-Colors)
 	- [5.3 More things](#53-More-things)
 - [6 Code Examples](#6-Code-Examples)
-    - [6.1 ExampleDOS.c](#61-ExampleDOS.c)
-	- [6.2 TestLib.c](#62-TestLib.c)
-	- [6.3 Test80c.c](#63-Test80c.c)
+    - [6.1 ExampleDOS](#61-ExampleDOS)
+	- [6.2 TestLib](#62-TestLib)
+	- [6.3 Test80c](#63-Test80c)
 - [7 Appendices](#7-Appendices)
     - [7.1 Escape sequences](#71-Escape-sequences)
 	- [7.2 Other scape codes](#72-Other-scape-codes)
@@ -443,7 +443,7 @@ In the source code [`examples/`](../examples/), you can find applications for te
 
 <br/>
 
-### 6.1 ExampleDOS.c
+### 6.1 ExampleDOS
 
 [`examples/forDoc`](../examples/forDoc)
 
@@ -501,7 +501,7 @@ __endasm;
 <br/>
 
 
-### 6.2 TestLib.c
+### 6.2 TestLib
 
 [`examples/testLib`](../examples/testLib)
 
@@ -509,7 +509,7 @@ __endasm;
 
 <br/>
 
-### 6.3 Test80c.c
+### 6.3 Test80c
 
 [`examples/test80c`](../examples/test80c)
 
