@@ -1,46 +1,41 @@
 /* =============================================================================
-	MSX-DOS TEXTMODE Library (fR3eL Project)
-	Version: 1.5 (22/10/2024)
-	Author: mvac7/303bcn [mvac7303b@gmail.com]
-	Architecture: MSX
-	Format: C Object (SDCC .rel)
-	Programming language: C and Z80 assembler
-	Compiler: SDCC 4.1.12 or newer
+  MSX TEXTMODE Library (fR3eL Project)
 
-	Description:
+  Description:
 	 Library of functions for developing text-mode applications.
 	 Supports the following display modes:
 	   - Text 1 (screen 0, 40 columns) 
 	   - Text 2 (screen 0, 80 columns) Requires MSX with V9938 and BIOS that 
 	                                   supports this mode.
-	   - Graphic 1 (screen 1, 32 columns) 
-	 
-	 This library uses MSX BIOS functions, called through interslot (CALSLT). 
-	 It is designed to develop MSXDOS applications.
-
-	 Use them for developing MSX applications using Small Device C Compiler (SDCC) 
-	 compilator.
-
-	 16-bit Integer to ASCII based on num2Dec16 by baze
-	 http://baze.sk/3sc/misc/z80bits.html#5.1
-
-	History of versions:
-	- v1.5 (22/10/2024) update to SDCC (4.1.12) Z80 calling conventions,
-					    add functions: PrintLN, GetColumns, GetCursorRow and GetCursorColumn.
-	- v1.4 (04/09/2019) Integer printing functions improved (PrintNumber & PrintFNumber).
-					    num2Dec16 becomes PrintFNumber
-	- v1.3 (29/08/2019) nakeds and PrintNumber improvements
-	- v1.2 (05/05/2018)
-	- v1.1 (27/02/2017)
+	   - Graphic 1 (screen 1, 32 columns)  
 ============================================================================= */
-#include "../include/textmode_MSX.h"
-
-#include "../include/msxSystemVariables.h"
-#include "../include/msxBIOS.h"
+#ifndef __TEXTMODE_H__
+#define __TEXTMODE_H__
 
 
 
-char PrintNumber_Digits;
+// palette color codes
+#ifndef _TMS_COLORS
+#define _TMS_COLORS
+#define TRANSPARENT   0
+#define BLACK         1
+#define GREEN         2
+#define LIGHT_GREEN   3
+#define DARK_BLUE     4
+#define LIGHT_BLUE    5
+#define DARK_RED      6
+#define CYAN          7
+#define RED           8
+#define LIGHT_RED     9
+#define DARK_YELLOW  10
+#define LIGHT_YELLOW 11
+#define DARK_GREEN   12
+#define MAGENTA      13
+#define GRAY         14
+#define GREY         14
+#define WHITE        15
+#endif
+
 
 
 /* =============================================================================
@@ -53,27 +48,11 @@ char PrintNumber_Digits;
              To set the T2 mode, you must first set 80 columns with the WIDTH
 			 function (only MSX computers with V9938 and BIOS that supports
 			 this mode).
+
  Input:    -
  Output:   -
 ============================================================================= */
-void SCREEN0(void) __naked
-{
-__asm
-  push IX
-  
-  ld   A,(#LINLEN)
-  ld   (#LINL40),A   ;copy columns seting with WIDTH to LINL40 system var
-   
-  ld   IX,#BIOS_INITXT
-$CallBIOS:
-  ld   IY,(#EXPTBL-1)
-  call BIOS_CALSLT
-  
-  ei    
-  pop  IX
-  ret  
-__endasm;
-}
+void SCREEN0(void);
 
 
 
@@ -86,18 +65,7 @@ __endasm;
  Input:    -
  Output:   -
 ============================================================================= */
-void SCREEN1(void) __naked
-{
-__asm
-  push IX
-  
-  ld   A,(#LINLEN)   ;get a last value set with WIDTH function 
-  ld   (#LINL32),A   ;set system variable
-   
-  ld   IX,#BIOS_INIT32
-  jp   $CallBIOS  
-__endasm;
-}
+void SCREEN1(void);
 
 
 
@@ -113,16 +81,7 @@ __endasm;
              1 to 32 in G1 mode
  Output:	- 
 ============================================================================= */
-void WIDTH(char columns) __naked
-{
-columns;
-__asm
-
-  ld   (#LINLEN),A
-
-  ret
-__endasm;  
-}
+void WIDTH(char columns);
 
 
 
@@ -137,34 +96,7 @@ __endasm;
            (char) background (0 to 15)
            (char) border (0 to 15)
 ============================================================================= */
-void COLOR(char ink, char background, char border)
-{
-ink;background,border;
-__asm
-  push IX
-  ld   IX,#0
-  add  IX,SP
-  
-  ld   B,L         ; 5c
-  ld   C,4(IX)     ;21c
-
-  ld   HL,#FORCLR  ;11c
-  ld   (HL),A      ; 8c
-  inc  HL          ; 7c
-  ld   (HL),B      ; 8c
-  inc  HL          ; 7c
-  ld   (HL),C      ; 8c
-;total ------------>75c
-  
-  ld   IX,#BIOS_CHGCLR
-  ld   IY,(#EXPTBL-1)
-  call BIOS_CALSLT
-  
-  ei    
-  pop  IX
-
-__endasm;
-}
+void COLOR(char ink, char background, char border);
 
 
 
@@ -177,17 +109,7 @@ __endasm;
  Input:    -        
  Output:   - 
 ============================================================================= */
-void CLS(void) __naked
-{
-__asm
-  push IX
-  
-  xor  A
-   
-  ld   IX,#BIOS_BCLS
-  jp   $CallBIOS
-__endasm;
-}
+void CLS(void);
 
 
 
@@ -203,21 +125,7 @@ __endasm;
            (char) Position Y of the cursor. (0 to 23)         
  Output:   -
 ============================================================================= */
-void LOCATE(char x, char y) __naked
-{
-x;y;
-__asm
-  push IX
-
-  inc  A
-  ld   H,A
-
-  inc  L
-     
-  ld   IX,#BIOS_POSIT
-  jp   $CallBIOS
-__endasm;
-}
+void LOCATE(char x, char y);
 
 
 
@@ -257,41 +165,7 @@ __endasm;
 						 
 			 \1\xHH		- Print Extended Graphic Characters. HH = character + 0x40
 ============================================================================= */
-void PRINT(char* text) __naked
-{
-text;  
-__asm
-	push IX
-	call PRNTXT$
-    ei
-	pop  IX
-    ret
-	
-PRNTXT$:
-	ld   IX,#BIOS_CHPUT
-	ld   IY,(#EXPTBL-1)
-  
-PRNLOOP$:
-	ld	 A,(HL)
-	or	 A		;IF \0 (null terminating character)
-	ret	 Z		;End of string
-
-	inc	 HL
-	
-	cp   #0x0A    ;\n
-	call Z,PRN_LFCR
-	
-	call BIOS_CALSLT
-;	ei
-	jr	 PRNLOOP$
-	
-PRN_LFCR:
-	call BIOS_CALSLT     ;print /n
-	ld	 A,#0x0D         ;for print /r
-	ret
-	
-__endasm;
-}
+void PRINT(char* text);
 
 
 
@@ -305,25 +179,7 @@ __endasm;
  Input:    (char*) String    
  Output:   -
 ============================================================================= */
-void PrintLN(char* text) __naked
-{
-text;
-__asm
-	push IX
-	
-	call PRNTXT$
-	
-	ld	 A,#0x0A  ;\n
-	call PRN_LFCR
-	call BIOS_CALSLT
-	
-	ei
-	pop  IX
-	ret
-__endasm;
-}
-
-
+void PrintLN(char* text);
 
 
 
@@ -336,107 +192,7 @@ __endasm;
  Input:    (unsigned int) or (char) numeric value          
  Output:   -
 ============================================================================= */
-void PrintNumber(unsigned int value) __naked
-{
-	value;
-//  PrintFNumber(value,0,5); 
-__asm
-  push IX
-
-; HL = value
-  ld   D,#0
-  ld   E,#5 
-  call PRNUM$
-  
-  ei
-  pop  IX
-  ret
-
-
-
-; ------------------------------------------------ 
-; 16-bit Integer to ASCII (decimal)
-; Based on num2Dec16 by baze
-; https://baze.sk/3sc/misc/z80bits.html#5.1 
-;  HL = value
-;  D  = zero/empty Char (0,32,48)
-;  E  = length
-PRNUM$:
-
-  ld   A,#5
-  ld   (_PrintNumber_Digits),A
-  
-  ld   IX,#BIOS_CHPUT
-  ld   IY,(#EXPTBL-1)
-  
-;for a future version with negative numbers  
-;if (HL<0) Print "-" 
-;   ld   A,#45
-;   call $Num4
-
-  	
-  ld   BC,#-10000
-  call $Num1
-  ld   BC,#-1000
-  call $Num1
-  ld   BC,#-100
-  call $Num1
-  ld   C,#-10
-  call $Num1
-
-;Last figure
-  ld   C,B
-  ld   D,#48          ;"0"
-
-;  call $Num1
-;  ei
-;  ret   ; END
-    
-$Num1:	
-  ld   A,#47     ;"0" ASCII code - 1
-   
-$Num2:
-  inc  A
-  add  HL,BC
-  jr   C,$Num2
-	
-  sbc  HL,BC
-	
-  cp   #48       ;"0" ASCII code    
-  jr   NZ,$Num3  ;if A!=48 then goto $Num3
-	
-  ld   A,D  ;(DE)
-  jr   $Num4
-
-
-$Num3:
-  ;change space for 0 zero ASCII code
-  ld   D,#48
-	
-$Num4:
-  push AF
-  ld   A,(_PrintNumber_Digits)
-  dec  A
-  ld   (_PrintNumber_Digits),A
-  cp   E  
-  jr  NC,$next5
-
-  pop  AF
-  or   A
-  ret  Z  ;only print A>0
-  
-  call BIOS_CALSLT
-;  ei
-  ret
-
-$next5:
-  pop  AF
-  ret  
-; ------------------------------------------------ 
-  
-__endasm;
-
-}
+void PrintNumber(unsigned int value);
 
 
 
@@ -452,27 +208,7 @@ __endasm;
 			(char) length: 1 to 5          
  Output:	-
 ============================================================================= */
-void PrintFNumber(unsigned int value, char emptyChar, char length) 
-{
-  value;		//HL
-  emptyChar;	//Stack
-  length;		//Stack
-  
-__asm
-  push IX
-  ld   IX,#0
-  add  IX,SP
-  
-; HL = value
-  ld   D,4(IX)        ;emptyChar
-  ld   E,5(IX)        ;length
-  call PRNUM$
-
-  ei
-  pop  IX
-		    
-__endasm;
-}
+void PrintFNumber(unsigned int value, char emptyChar, char length);
 
 
 
@@ -480,22 +216,13 @@ __endasm;
  bchput
  
  Description: 
-			Displays a character or executes control code.
+			Displays a character or executes control code. 
 			(MSX BIOS CHPUT)
 
  Input:		(char) character number
  Output:	-
 ============================================================================= */
-void bchput(char value) __naked
-{
-value;	//A
-__asm
-  push IX
-  
-  ld   IX,#BIOS_CHPUT
-  jp   $CallBIOS
-__endasm;
-}
+void bchput(char value);
 
 
 
@@ -508,13 +235,7 @@ __endasm;
  Input:	    -
  Output:	(char)
 ============================================================================= */
-char GetColumns(void) __naked
-{
-__asm
-  ld   A,(#LINLEN)
-  ret
-__endasm;
-}
+char GetColumns(void);
 
 
 
@@ -527,14 +248,7 @@ __endasm;
  Input:		-
  Output:	(char) (0-23)
 ============================================================================= */
-char GetCursorRow(void) __naked
-{
-__asm
-  ld   A,(#CSRY)
-  dec  A
-  ret
-__endasm;
-}
+char GetCursorRow(void);
 
 
 
@@ -549,44 +263,21 @@ __endasm;
 					TEXT 2 (0 to 79)
 					GRAPHIC 1 (0 to 31)
 ============================================================================= */
-char GetCursorColumn(void) __naked
-{
-__asm
-  ld   A,(#CSRX)
-  dec  A
-  ret
-__endasm;
-}
+char GetCursorColumn(void);
 
 
 
 /* =============================================================================
- Displays the function keys
+   Displays the function keys
 ============================================================================= */
-/*void KEYON(void) __naked
-{
-__asm
-  push IX
-   
-  ld   IX,#BIOS_DSPFNK
-  jp   $CallBIOS
-__endasm;
-}*/
+//void KEYON(void);
 
 
 
 /* =============================================================================
    Erase functionkey display
 ============================================================================= */
-/*void KEYOFF(void) __naked
-{
-__asm
-  push IX
-   
-  ld   IX,#BIOS_ERAFNK
-  jp   $CallBIOS
-__endasm;
-}*/
+//void KEYOFF(void);
 
 
 
@@ -598,59 +289,23 @@ __endasm;
    Indicates whether Text 1 mode is active.
    Output:	1=Yes/True ; 0=No/False
 ============================================================================= */
-/*
-char isText1Mode(void)
-{
-	char *A;
-	A=(unsigned int *) RG1SAV;
-	if (*A&0b00010000) return 1; //Text 40col Mode
-	return 0;	
-}
-*/
+//char isText1Mode(void);
+
 
 
 /* =============================================================================
  SetG1colors
 
  Description: 
-			Assigns colors to a group of GRAPHIC1 tiles.
-			MSX-DOS environment.
+			Assigns colors to a group of GRAPHIC1 mode tiles.
 		   
  Input:		(char) Octet. Group of 8 tiles.
 			(char) Ink color (0-15)
 			(char) Background color (0-15)      
  Output:   -
 ============================================================================= */
-/*void SetG1colors(char octet, char INKcolor, char BGcolor)
-{
-octet;		//A
-INKcolor;	//L
-BGcolor;	//Stack	
-__asm
-  push IX
-  ld   IX,#0
-  add  IX,SP
-	
-  ld   B,L	
-	
-  ld   HL,#0x2000
-  ld   D,#0
-  ld   E,A
-  add  HL,DE
-	
-  ld   C,4(IX)
-  ld   A,B
-  SLA  A
-  SLA  A
-  SLA  A
-  SLA  A	
-  or   C	
-	
-  ld   IX,#0x004D     ;MSX BIOS   WRTVRM Writes data in VRAM
-  ld   IY,(#0xFCC0)   ;System var EXPTBL-1 (FCC1h-1) main BIOS-ROM slot address
-  call 0x001C         ;MSX BIOS   CALSLT Executes inter-slot call
-  ei
-	
-  pop  IX
-__endasm;	
-}*/
+//void SetG1colors(char octet, char INKcolor, char BGcolor);
+
+
+
+#endif

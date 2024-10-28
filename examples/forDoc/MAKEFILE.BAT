@@ -1,10 +1,9 @@
 @echo off
 REM MAKEFILE for MSXDOS .COM using SDCC compiler
 REM CFILENAME = Source name without extension
-SET CFILENAME=Test
-SET OUTPUTFILENAME=TEST
-SET CRT=
-REM libs\crt0_MSXDOS.rel
+SET CFILENAME=ExampleDOS
+SET OUTPUTFILENAME=EXAMPLE
+SET CRT=libs\crt0_msxdos.rel
 SET LIB0=libs\textmode_MSXDOS.rel
 SET LIB1=
 SET LIB2=
@@ -32,7 +31,7 @@ if not exist build\%CFILENAME%.ihx goto COMPILA
 del build\%CFILENAME%.ihx
 :COMPILA
 echo Compiling...
-sdcc -mz80 -o build\ --code-loc 0x0100 --data-loc 0 --use-stdout --no-std-crt0 %CRT% %LIB0% %LIB1% %LIB2% %LIB3% %LIB4% %LIB5% %LIB6% %LIB7% %LIB8% %LIB9% %LIB10% %LIB11% %LIB12% src\%CFILENAME%.c
+sdcc -mz80 -o build\ --code-loc 0x0106 --data-loc 0 --use-stdout --no-std-crt0 %CRT% %LIB0% %LIB1% %LIB2% %LIB3% %LIB4% %LIB5% %LIB6% %LIB7% %LIB8% %LIB9% %LIB10% %LIB11% %LIB12% src\%CFILENAME%.c
 if not exist build\%CFILENAME%.ihx goto ERROROUTPUT
 hex2bin -e BIN build\%CFILENAME%.ihx
 copy build\%CFILENAME%.BIN bin\%OUTPUTFILENAME%.COM

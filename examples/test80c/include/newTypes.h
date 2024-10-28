@@ -1,4 +1,4 @@
-// newtypes v1.0 - 12march2018
+// newtypes v1.2 - 21march2018
 #ifndef  __NEWTYPES_H__
 #define  __NEWTYPES_H__
 
@@ -14,20 +14,23 @@
 #endif
 
 // unsigned integer
-#ifndef uint
-typedef unsigned int uint;
+#ifndef _UINT
+#define _UINT
+  typedef unsigned int uint;
 #endif
 
 // unsigned char
-#ifndef byte
-typedef unsigned char byte;
-#endif
+//#ifndef _BYTE
+//#define _BYTE
+//  typedef unsigned char byte;
+//#endif
 
 //definiciones de A.Herrera 
 //http://msx.atlantes.org/index_es.html
-#ifndef int8
-typedef signed char int8;
-#endif
+//#ifndef _INT8
+//#define _INT8
+//  typedef signed char int8;
+//#endif
 //typedef unsigned char uint8;
 //typedef signed int int16_t;
 //typedef unsigned int uint16_t;
