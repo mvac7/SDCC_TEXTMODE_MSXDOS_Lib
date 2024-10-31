@@ -32,10 +32,7 @@
 	- [5.2 GRAPHIC 1 mode](#52-GRAPHIC-1-mode)
 	- [5.2.1 Set GRAPHIC 1 Colors](#521-Set-GRAPHIC-1-Colors)
 	- [5.3 More things](#53-More-things)
-- [6 Code Examples](#6-Code-Examples)
-    - [6.1 ExampleDOS](#61-ExampleDOS)
-	- [6.2 TestLib](#62-TestLib)
-	- [6.3 Test80c](#63-Test80c)
+- [6 Code Example](#6-Code-Example)
 - [7 Appendices](#7-Appendices)
     - [7.1 Escape sequences](#71-Escape-sequences)
 	- [7.2 Other scape codes](#72-Other-scape-codes)
@@ -437,20 +434,18 @@ In your project you must add code that dumps this data into the VRAM pattern tab
 
 ---
 
-## 6 Code Examples
+## 6 Code Example
 
-In the source code [`examples/`](../examples/), you can find applications for testing and learning purposes.
+In the following source code you can see a simple example of using the library. 
+
+You can find more extensive examples in the git project sources.
 
 <br/>
 
-### 6.1 ExampleDOS
-
-[`examples/forDoc`](../examples/forDoc)
-
-#### Source
+### Source
 ```c
 /* =====================================================
-	Example TEXTMODE MSX-DOS Library (fR3eL Project)
+   Example TEXTMODE MSX-DOS Library (fR3eL Project)
 ======================================================== */
 
 #include "../include/textmode_MSX.h"
@@ -468,7 +463,7 @@ void main(void)
   PrintLN("Line 2");
   PrintLN("Line 3\n");
     
-  PRINT("\1\x42");
+  PRINT("\1\x42");   //print smile (2 + 64) = 42 hexadecimal
   PRINT("\n");
   
   PRINT("\n>PrintNumber:");
@@ -495,26 +490,9 @@ __endasm;
 }
 ```
 
-#### Output
+### Output
+
 ![Example screenshot](pics/TEST_0004.png)
-
-<br/>
-
-
-### 6.2 TestLib
-
-[`examples/testLib`](../examples/testLib)
-
-![Example screenshot](pics/TEST_0000.png) ![Example screenshot](pics/TEST_0001.png)
-
-<br/>
-
-### 6.3 Test80c
-
-[`examples/test80c`](../examples/test80c)
-
-![Example screenshot](pics/TEST_0002.png) ![Example screenshot](pics/TEST_0003.png)
-
 
 <br/>
 
@@ -560,7 +538,7 @@ you will have to use add the value 1 after the character code.
 It must be taken into account that the character code is equivalent to the corresponding one of the graphic set added to 64.
 
 ```c
-  PRINT("\1\x42"); // print smile (2 + 64)
+  PRINT("\1\x42");   //print smile (2 + 64) = 42 hexadecimal
 ```
 
 **Example:**

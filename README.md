@@ -24,8 +24,6 @@ Feel free to use part or all of it to adapt it to other systems or development e
 
 You can access the documentation here with [`How to use the library`](docs/HOWTO.md).
 
-In the source code [`examples/`](examples/), you can find applications for testing and learning purposes.
-
 I have adapted a routine for converting a 16 Bits value to ASCII for printing numbers, extracted from the Baze collection [(WEB)](http://baze.sk/3sc/misc/z80bits.html#5.1). 
 
 This library is part of the [MSX fR3eL Project](https://github.com/mvac7/SDCC_MSX_fR3eL).
@@ -69,3 +67,44 @@ Enjoy it!
 | **GetColumns**()      | Provides the columns from current screen           |
 | **GetCursorRow**()    | Provides the current row-position of the cursor    |
 | **GetCursorColumn**() | Provides the current column-position of the cursor |
+
+<br/>
+
+---
+
+## Code Examples
+
+In the git project [`examples/`](../examples/), you can find the source code of applications for testing and learning purposes.
+
+<br/>
+
+### ExampleDOS
+
+Simple example of the use of the library (used in the documentation).
+
+[`examples/forDoc`](examples/forDoc)
+
+![Example screenshot](docs/pics/TEST_0004.png)
+
+<br/>
+
+### TestLib
+
+Test the library functions in Text 1 (Screen 0 with 40 columns) and GRAPHIC 1 (Screen 1) modes of the TMS9918A.
+
+[`examples/testLib`](examples/testLib)
+
+![Example 1 screenshot](docs/pics/TEST_0000.png) 
+![Example 2 screenshot](docs/pics/TEST_0001.png)
+
+
+<br/>
+
+### Test80c
+
+Test the library functions in Text 2 mode (Screen 0 with 80 columns) of V9938 or higher.
+
+[`examples/test80c`](examples/test80c)
+
+![Example 1 screenshot](docs/pics/TEST_0002.png) 
+![Example 2 screenshot](docs/pics/TEST_0003.png)

@@ -1,5 +1,5 @@
 /* =====================================================
-	Example TEXTMODE MSX-DOS Library (fR3eL Project)
+   Example TEXTMODE MSX-DOS Library (fR3eL Project)
 ======================================================== */
 
 #include "../include/textmode_MSX.h"
@@ -17,7 +17,7 @@ void main(void)
   PrintLN("Line 2");
   PrintLN("Line 3\n");
     
-  PRINT("\1\x42");
+  PRINT("\1\x42");   //print smile (2 + 64) = 42 hexadecimal
   PRINT("\n");
   
   PRINT("\n>PrintNumber:");

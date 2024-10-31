@@ -187,6 +187,12 @@ __endasm;
 
 
 
+/* =============================================================================
+	VPEEK
+	Description:	Reads a value from video RAM. 
+	Input:			[unsigned int] VRAM address
+	Output:			[char] value
+============================================================================= */ 
 char VPEEK(uint address) __naked
 {
 address;
